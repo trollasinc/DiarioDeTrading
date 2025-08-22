@@ -111,6 +111,41 @@
     </style>
   </head>
   <body>
+    <div class="watermark">
+      <img
+        src="Img/Logos/Trollas. Inc.png"
+        alt="Marca de agua"
+        class="watermark-img" />
+      <div class="watermark-text">Trollas. Inc.</div>
+    </div>
+    <style>
+      .watermark {
+        position: fixed;
+        right: 16px;
+        bottom: 16px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        opacity: 0.5;
+        z-index: 9999;
+        pointer-events: none;
+        user-select: none;
+      }
+      .watermark-img {
+        width: 48px;
+        height: 48px;
+        object-fit: contain;
+        margin-bottom: 4px;
+      }
+      .watermark-text {
+        font-size: 12px;
+        color: #222;
+        background: rgba(255, 255, 255, 0.6);
+        border-radius: 4px;
+        padding: 2px 8px;
+        text-align: center;
+      }
+    </style>
     <div class="ads-banner"></div>
 
     <h1>Diario de Trading</h1>
@@ -168,7 +203,34 @@
     </table>
 
     <canvas id="chart" height="100"></canvas>
+    <style>
+      footer {
+        text-align: center;
+        font-size: 0.85em;
+        color: #888;
+        margin-top: 40px;
+        border-top: 1px solid #333;
+        padding-top: 10px;
+      }
+      footer a {
+        color: #0066ff;
+      }
+      footer a:hover {
+        text-decoration: underline;
+      }
 
+      footer img {
+        margin-top: 10px;
+      }
+    </style>
+    <footer>
+      Esta web ha sido desarrollada por Trollas. Inc.
+      <br />
+      Mas info en
+      <a href="https://leonperriman.wixsite.com/trollasinc">Trollas. Inc.</a>
+      <br />
+      <img src="Img/Logos/Trollas. Inc.png" alt="Trollas. Inc." height="32" />
+    </footer>
     <script>
       // Trading script
       const state = { trades: [] };
