@@ -232,8 +232,9 @@
       <img src="Img/Logos/Trollas. Inc.png" alt="Trollas. Inc." height="32" />
     </footer>
     <script>
-      // Trading script
-      const state = { trades: [] };
+      const state = {
+        trades: JSON.parse(localStorage.getItem("trades") || "[]"),
+      };
       const tbody = document.getElementById("tbody");
       const ctx = document.getElementById("chart").getContext("2d");
 
@@ -241,13 +242,15 @@
         type: "line",
         data: {
           labels: [],
-          datasets: [{ data: [], borderColor: "#7c3aed", fill: false }],
+          datasets: [
+            {
+              label: "P&L acumulado",
+              data: [],
+              borderColor: "#7c3aed",
+            },
+          ],
         },
-        options: {
-          responsive: true,
-          scales: { y: { beginAtZero: true } },
-          plugins: { legend: { display: false } },
-        },
+        options: { responsive: true, scales: { y: { beginAtZero: true } } },
       });
 
       function computePL(t) {
@@ -289,9 +292,13 @@
         const fd = new FormData(e.target);
         const t = Object.fromEntries(fd.entries());
         state.trades.push(t);
+        localStorage.setItem("trades", JSON.stringify(state.trades)); // guarda
         e.target.reset();
         render();
       });
+
+      // Render inicial con datos guardados
+      render();
 
       // Ads script
       const ads = [
