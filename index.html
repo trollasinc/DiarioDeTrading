@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Diario de Trading Básico</title>
+    <title>Diario de Trading</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
       body {
@@ -136,6 +136,23 @@
         padding: 2px 8px;
         text-align: center;
       }
+      footer {
+        text-align: center;
+        font-size: 0.85em;
+        color: #888;
+        margin-top: 40px;
+        border-top: 1px solid #333;
+        padding-top: 10px;
+      }
+      footer a {
+        color: #0066ff;
+      }
+      footer a:hover {
+        text-decoration: underline;
+      }
+      footer img {
+        margin-top: 10px;
+      }
     </style>
   </head>
   <body>
@@ -266,7 +283,8 @@
       }
 
       // Cargar trades desde Google Sheets
-      const SHEET_URL = "TU_URL_DE_APP_WEB"; // reemplaza por tu URL de Apps Script
+      const SHEET_URL =
+        "https://script.google.com/macros/s/AKfycbwzK7u6YEcwuNekVz01UPDmX4xIhUhnzw2YBfcVx1GfinflKGltJLZDwSgaMq4OdN9s/exec"; // reemplaza por tu URL de Apps Script
       function loadTrades() {
         fetch(SHEET_URL)
           .then((res) => res.json())
