@@ -51,7 +51,7 @@
         color: #f87171;
       }
 
-      /* Estilo para anuncios */
+      /* Banner anuncios */
       .ads-banner {
         width: 100%;
         max-width: 100vw;
@@ -108,17 +108,8 @@
           padding-top: 80px;
         }
       }
-    </style>
-  </head>
-  <body>
-    <div class="watermark">
-      <img
-        src="Img/Logos/Trollas. Inc.png"
-        alt="Marca de agua"
-        class="watermark-img" />
-      <div class="watermark-text">Trollas. Inc.</div>
-    </div>
-    <style>
+
+      /* Marca de agua */
       .watermark {
         position: fixed;
         right: 16px;
@@ -146,6 +137,16 @@
         text-align: center;
       }
     </style>
+  </head>
+  <body>
+    <div class="watermark">
+      <img
+        src="Img/Logos/Trollas. Inc.png"
+        alt="Marca de agua"
+        class="watermark-img" />
+      <div class="watermark-text">Trollas. Inc.</div>
+    </div>
+
     <div class="ads-banner"></div>
 
     <h1>Diario de Trading</h1>
@@ -203,26 +204,7 @@
     </table>
 
     <canvas id="chart" height="100"></canvas>
-    <style>
-      footer {
-        text-align: center;
-        font-size: 0.85em;
-        color: #888;
-        margin-top: 40px;
-        border-top: 1px solid #333;
-        padding-top: 10px;
-      }
-      footer a {
-        color: #0066ff;
-      }
-      footer a:hover {
-        text-decoration: underline;
-      }
 
-      footer img {
-        margin-top: 10px;
-      }
-    </style>
     <footer>
       Esta web ha sido desarrollada por Trollas. Inc.
       <br />
@@ -231,38 +213,19 @@
       <br />
       <img src="Img/Logos/Trollas. Inc.png" alt="Trollas. Inc." height="32" />
     </footer>
+
     <script>
-      fetch(
-        "https://script.google.com/macros/s/AKfycbwzK7u6YEcwuNekVz01UPDmX4xIhUhnzw2YBfcVx1GfinflKGltJLZDwSgaMq4OdN9s/exec",
-        {
-          method: "POST",
-          body: JSON.stringify(trade),
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-
-      fetch(
-        "https://script.google.com/macros/s/AKfycbwzK7u6YEcwuNekVz01UPDmX4xIhUhnzw2YBfcVx1GfinflKGltJLZDwSgaMq4OdN9s/exec"
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          state.trades = data;
-          render(); // actualizar tabla y gráfico
-        });
-
+      const state = { trades: [] };
       const tbody = document.getElementById("tbody");
       const ctx = document.getElementById("chart").getContext("2d");
 
+      // Inicializar gráfico
       let chart = new Chart(ctx, {
         type: "line",
         data: {
           labels: [],
           datasets: [
-            {
-              label: "P&L acumulado",
-              data: [],
-              borderColor: "#7c3aed",
-            },
+            { label: "P&L acumulado", data: [], borderColor: "#7c3aed" },
           ],
         },
         options: { responsive: true, scales: { y: { beginAtZero: true } } },
@@ -302,19 +265,36 @@
         chart.update();
       }
 
+      // Cargar trades desde Google Sheets
+      const SHEET_URL = "TU_URL_DE_APP_WEB"; // reemplaza por tu URL de Apps Script
+      function loadTrades() {
+        fetch(SHEET_URL)
+          .then((res) => res.json())
+          .then((data) => {
+            state.trades = data;
+            render();
+          });
+      }
+
+      loadTrades(); // cargar al inicio
+
+      // Enviar nuevo trade
       document.getElementById("tradeForm").addEventListener("submit", (e) => {
         e.preventDefault();
         const fd = new FormData(e.target);
         const t = Object.fromEntries(fd.entries());
-        state.trades.push(t);
+
+        // POST a Google Sheets
+        fetch(SHEET_URL, {
+          method: "POST",
+          body: JSON.stringify(t),
+          headers: { "Content-Type": "application/json" },
+        }).then(() => loadTrades()); // recargar tabla y gráfico
+
         e.target.reset();
-        render();
       });
 
-      // Render inicial con datos guardados
-      render();
-
-      // Ads script
+      // Banner de anuncios
       const ads = [
         {
           img: "img/Logos/channels4_profile.jpg",
