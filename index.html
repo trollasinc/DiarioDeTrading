@@ -232,9 +232,24 @@
       <img src="Img/Logos/Trollas. Inc.png" alt="Trollas. Inc." height="32" />
     </footer>
     <script>
-      const state = {
-        trades: JSON.parse(localStorage.getItem("trades") || "[]"),
-      };
+      fetch(
+        "https://script.google.com/macros/s/AKfycbwzK7u6YEcwuNekVz01UPDmX4xIhUhnzw2YBfcVx1GfinflKGltJLZDwSgaMq4OdN9s/exec",
+        {
+          method: "POST",
+          body: JSON.stringify(trade),
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      fetch(
+        "https://script.google.com/macros/s/AKfycbwzK7u6YEcwuNekVz01UPDmX4xIhUhnzw2YBfcVx1GfinflKGltJLZDwSgaMq4OdN9s/exec"
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          state.trades = data;
+          render(); // actualizar tabla y gráfico
+        });
+
       const tbody = document.getElementById("tbody");
       const ctx = document.getElementById("chart").getContext("2d");
 
@@ -292,7 +307,6 @@
         const fd = new FormData(e.target);
         const t = Object.fromEntries(fd.entries());
         state.trades.push(t);
-        localStorage.setItem("trades", JSON.stringify(state.trades)); // guarda
         e.target.reset();
         render();
       });
